@@ -1,0 +1,67 @@
+<% include ./partials/header %>	
+
+
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Brand</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="/home">Home</a></li>
+        <li><a href="/about">About us</a></li>
+        <li><a href="/addorder">Add Order</a></li>
+        <li class="active"><a href="/showorders">Show Orders<span class="sr-only">(current)</span></a></li>
+        <li><a href="/profit">Profit-Analysis</a></li>
+       </ul>
+     </div>
+    </div>
+ </nav>
+
+
+
+
+
+<div class="container">
+	<h1>Welcome To Our Restaurant</h1>
+	<table class="table table-bordered">
+			<th>
+					<td>Name</td>
+					<td>Item</td>
+					<td>Quantity</td>
+					<td>Price</td>
+					<td>Weight(in grams0)</td>
+					<td>Profit</td>
+				</div>
+			</th>
+				<% var i=0 %>
+				<% orders.forEach(function(order){ %>
+					<tr>
+				    <%  i=i+1 %>
+				    <td><%= i %>
+					<td><%= order.name %></td>
+					<td><%= order.item %></td>
+					<td><%= order.quantity %></td>
+					<td><%= order.price %></td>
+					<td><%= order.w %></td>
+					<td><%= order.b %></td>
+					</tr>
+				<% }) %>
+	</table>
+</div>
+		
+
+
+
+
+
+
+<% include ./partials/footer %>	

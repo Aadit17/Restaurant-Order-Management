@@ -1,0 +1,135 @@
+<% include ./partials/header %>
+
+
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Brand</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="/home">Home</a></li>
+        <li><a href="/about">About us</a></li>
+        <li><a href="/addorder">Add Order</a></li>
+        <li><a href="/showorders">Show Orders</a></li>
+        <li class="active"><a href="/profit">Profit-Analysis<span class="sr-only">(current)</span></a></li>
+       </ul>
+     </div>
+    </div>
+ </nav>
+
+
+
+
+
+ <% function knapsack(items, c, i){ %>
+   <% var item = 0         %>
+     <%  var  weight = 0      %>
+       <% var max_before = 0    %> 
+       <% var  max_after = 0     %>
+       <% var number_of_items = items.length  %>
+       <% var  matrix_weight = new Array(number_of_items + 1)   %>
+      <% var  matrix_to_keep = new Array(number_of_items + 1)   %>
+      <%  var solution_array = []   %>
+      <%  var remaining_array = []   %>
+
+  <%  for (item = 0; item < number_of_items + 1; item++) {   %>
+    <%    matrix_weight[item] = new Array(c + 1)   %>
+    <%    matrix_to_keep[item] = new Array(c + 1)   %>
+   <% }  %>
+
+   <% for (item = 0; item <= number_of_items; item++) {   %>
+     <%   for (weight = 0; weight <= c; weight++) {   %>
+
+       <%     if (item === 0 || weight === 0) {   %>
+         <%       matrix_weight[item][weight] = 0 %>
+          <%  }else if (items[item - 1].w <= weight) {   %>
+
+            <%    max_after = parseInt(items[item - 1].b) + parseInt(matrix_weight[item - 1][weight - items[item - 1].w])   %>
+          <%             max_before = parseInt(matrix_weight[item - 1][weight]) %>
+
+           <%     if (max_after > max_before) {  %>
+             <%       matrix_weight[item][weight] = max_after %>
+               <%     matrix_to_keep[item][weight] = 1  %>
+               <% }else{  %>
+                 <%   matrix_weight[item][weight] = max_before  %>
+                 <%   matrix_to_keep[item][weight] = 0  %>
+               <% }  %>
+           <% }else{  %>
+
+            <%    matrix_weight[item][weight] = matrix_weight[item - 1][weight]  %>
+           <% }  %>
+       <% }  %>
+   <% }  %>
+
+   <% weight = c  %>
+   <% item = number_of_items %> 
+  <% for (item; item > 0; item--) { %>
+    <%    if (matrix_to_keep[item][weight] === 1) {   %>
+      <%      solution_array.push(items[item - 1])   %>
+       <%     weight = weight - items[item - 1].w   %>
+      <%  }else{ %>
+          <%      remaining_array.push(items[item - 1]) %>
+          <%  } %>
+   <% } %>
+              <% i= i+1 %>
+   <div class="container" >
+   <h2>Maximum Profit from Delivery Boy <%= i %> = <%= matrix_weight[number_of_items][c]  %> </h2>
+
+      <table class="table table-bordered">
+			<th>
+					<td>Name</td>
+					<td>Item</td>
+					<td>Quantity</td>
+					<td>Price</td>
+					<td>Weight(in grams0)</td>
+					<td>Profit</td>
+				</div>
+			</th>
+
+    
+   <% solution_array.forEach(function(item){  %>
+     <tr>
+				    <td><%= i %>
+					<td><%= item.name %></td>
+					<td><%= item.item %></td>
+					<td><%= item.quantity %></td>
+					<td><%= item.price %></td>
+					<td><%= item.w %></td>
+					<td><%= item.b %></td>
+					</tr>
+   <% })  %>
+
+     </table>
+    </div>
+    
+  
+
+   <%  var len = remaining_array.length %>
+   
+    
+  <%  if(len !== 0){ %>
+    <%    knapsack(remaining_array,500,i) %>
+   <% } %>
+   
+<% } %>
+
+		<% knapsack(orders,500,0) %>
+
+
+
+
+
+
+
+
+
+<% include ./partials/footer %>	
